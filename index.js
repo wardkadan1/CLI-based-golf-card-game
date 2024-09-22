@@ -163,3 +163,60 @@ function replace(player, card, playernum) {
     }
   });
 }
+
+function nextTurn(playernum) {
+  const nextplayer = (playernum + 1) % 2;
+  let flag = 0;
+  for (i = 0; i < players[playernum].face.length; i++)
+    if (players[playernum].face[i] === false) {
+      flag = 1;
+      break;
+    }
+  if (flag === 1) {
+    turn(nextplayer);
+    flag = 0;
+  } else endGame(nextplayer);
+}
+
+function endGame(playernum) {
+  console.log("\nGame over!\n");
+  for (let i = 0; i < players.length; i++)
+    for (let j = 0; j < players[i].face.length; j++) players[i].face[j] = true;
+  board();
+  playersScore = score();
+  console.log("\nFinal Scores:");
+  for (let i = 0; i < players.length; i++) {
+    console.log(`${players[i].name}: ${playersScore[i]}`);
+  }
+  if (playersScore[0] < playersScore[1])
+    console.log(`\n${players[0].name} Wins!`);
+  else if (playersScore[0] > playersScore[1])
+    console.log(`\n${players[1].name} Wins!`);
+  else if (playersScore[0] === playersScore[1]) console.log("\nDraw!");
+  restartAsk();
+}
+
+function restartAsk() {
+  rl.question("Play again (Y/N)? ", function (answer) {
+    if (answer.toUpperCase() === "Y") {
+      console.clear();
+      restartGame();
+      askPlayerNames();
+    } else if (answer.toUpperCase() === "N") {
+      rl.close();
+    } else {
+      console.log("Invalid choice!!");
+      restartAsk();
+    }
+  });
+}
+
+function restartGame() {
+  for (let i = 0; i < players.length; i++) {
+    players[i].hand = [];
+    players[i].face = [false, false, false, false];
+  }
+  discardPile.pop();
+  deck = createDeck();
+  shuffleDeck(deck);
+}
