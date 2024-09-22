@@ -54,3 +54,30 @@ function shuffleDeck(deck) {
     deck[j] = temp;
   }
 }
+
+function deal4cards() {
+  for (let i = 0; i < players.length; i++)
+    for (let j = 0; j < 4; j++) players[i].hand.push(deck.pop());
+  discardPile.push(deck.pop());
+}
+
+function board() {
+  console.log("\n--- Board ---");
+  for (let i = 0; i < players.length; i++) {
+    let player = players[i];
+    let handDisplay = `${player.name} Hand: `;
+    for (let j = 0; j < player.hand.length; j++) {
+      let card = player.hand[j];
+      if (player.face[j]) {
+        handDisplay += `[${card.rank} of ${card.suit}] | `;
+      } else {
+        handDisplay += `[Face Down] | `;
+      }
+    }
+    console.log(handDisplay.slice(0, -3));
+  }
+  let topDiscard = discardPile[0];
+  console.log(
+    `Discard Pile Top Card: ${topDiscard.rank} of ${topDiscard.suit}`
+  );
+}
