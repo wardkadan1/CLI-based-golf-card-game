@@ -220,3 +220,25 @@ function restartGame() {
   deck = createDeck();
   shuffleDeck(deck);
 }
+
+function score() {
+  let score = [];
+  let sum = 0;
+  for (let i = 0; i < players.length; i++) {
+    for (let j = 0; j < players[i].hand.length; j++) {
+      for (let t = j + 1; t < players[i].hand.length; t++)
+        if (
+          players[i].hand[j].value === players[i].hand[t].value &&
+          players[i].hand[j].value !== -1
+        ) {
+          players[i].hand[j].value = 0;
+          players[i].hand[t].value = 0;
+        }
+      sum += players[i].hand[j].value;
+    }
+
+    score.push(sum);
+    sum = 0;
+  }
+  return score;
+}
