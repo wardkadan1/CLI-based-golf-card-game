@@ -242,3 +242,16 @@ function score() {
   }
   return score;
 }
+
+function askPlayerNames() {
+  rl.question("Enter Player 1 name: ", (name1) => {
+    players[0].name = name1;
+    rl.question("Enter Player 2 name: ", (name2) => {
+      players[1].name = name2;
+      deal4cards();
+      turn(0);
+    });
+  });
+}
+
+askPlayerNames();
