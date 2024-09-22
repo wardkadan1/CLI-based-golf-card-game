@@ -37,3 +37,20 @@ const players = [
 let deck = createDeck();
 shuffleDeck(deck);
 let discardPile = [];
+
+function createDeck() {
+  const deck = [];
+  for (let i = 0; i < suits.length; i++)
+    for (let j = 0; j < ranks.length; j++)
+      deck.push({ suit: suits[i], rank: ranks[j].rank, value: ranks[j].value });
+  return deck;
+}
+
+function shuffleDeck(deck) {
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = deck[i];
+    deck[i] = deck[j];
+    deck[j] = temp;
+  }
+}
